@@ -1,24 +1,27 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Yalnızca POST isteklerine izin verilir.' });
-  }
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-  const targetURL = 'https://script.google.com/macros/s/AKfycbz6s_fyVkbrhbtKmh0Qfqa3fWoeMoBuJlwOU6ShgE6nLG8mql2pnji1-0HWJD1tQPh4FA/exec';
+  if (req.method === "POST") {
+    const { name, age, email, country, hobbies, color } = req.body;
 
-  try {
-    const response = await fetch(targetURL, {
-      method: 'POST',
+    const response = await fetch("https://script.google.com/macros/s/AKfycb.../exec", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: JSON.stringify(req.body)
+      body: new URLSearchParams({
+        name,
+        age,
+        email,
+        country,
+        hobbies,
+        color
+      })
     });
 
     const text = await response.text();
-
-    return res.status(200).json({ status: 'ok', result: text });
-  } catch (err) {
-    console.error('❌ Proxy hatası:', err);
-    return res.status(500).json({ status: 'error', error: err.toString() });
+    res.status(200).send(text);
+  } else {
+    res.status(405).send("Method not allowed");
   }
 }
