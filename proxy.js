@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { name, age, email, country, hobbies, color } = req.body;
 
-    const response = await fetch("https://script.google.com/macros/s/AKfycb.../exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbz6s_fyVkbrhbtKmh0Qfqa3fWoeMoBuJlwOU6ShgE6nLG8mql2pnji1-0HWJD1tQPh4FA/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
